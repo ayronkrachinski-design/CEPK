@@ -2,423 +2,284 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JoJo's Bizarre Adventure</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tokyo Ghoul | Mundo das Sombras</title>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto:wght@400;700&display=swap');
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-html {
-    scroll-behavior: smooth;
-}
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0b0b0b;
+            color: #f5f5f5;
+            line-height: 1.6;
+        }
 
-body {
-    background: #10051d;
-    color: white;
-    font-family: 'Roboto', sans-serif;
-}
+        header {
+            background-color: #151515;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #a00000;
+        }
 
-header {
-    background: #19082a;
-    padding: 20px 8%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    border-bottom: 2px solid #ff38c7;
-}
+        header h2 {
+            color: #e50914;
+            letter-spacing: 2px;
+        }
 
-.logo {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 22px;
-    color: #ff38c7;
-    text-shadow: 0 0 15px #ff38c7;
-}
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            transition: 0.3s;
+        }
 
-nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 18px;
-    transition: .3s;
-}
+        nav a:hover {
+            color: #e50914;
+        }
 
-nav a:hover {
-    color: #ff38c7;
-}
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            background:
+                radial-gradient(circle, #4a0000 0%, #160000 35%, #0b0b0b 75%);
+        }
 
-.hero {
-    min-height: 85vh;
-    padding: 80px 8%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    background:
-      radial-gradient(ellipse at 80% 40%, #701b9b 0%, transparent 40%),
-      linear-gradient(135deg, #180628, #360c50, #10051d);
-    position: relative;
-    overflow: hidden;
-}
+        .hero h1 {
+            font-size: clamp(42px, 8vw, 80px);
+            color: #e50914;
+            text-shadow: 0 0 20px #8b0000;
+            margin-bottom: 15px;
+        }
 
-.hero::after {
-    content: "ゴゴゴ";
-    position: absolute;
-    right: 2%;
-    top: 20%;
-    font-size: clamp(50px, 12vw, 150px);
-    color: #ff38c7;
-    opacity: .13;
-    transform: rotate(-12deg);
-    pointer-events: none;
-}
+        .hero p {
+            font-size: 20px;
+            color: #cccccc;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
 
-.hero h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(35px, 7vw, 75px);
-    max-width: 850px;
-    line-height: 1.15;
-    margin-bottom: 25px;
-    text-shadow: 4px 4px #8b19bf;
-}
+        .botao {
+            display: inline-block;
+            background-color: #b00000;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
 
-.hero h1 span {
-    color: #ff38c7;
-}
+        .botao:hover {
+            background-color: #e50914;
+            transform: scale(1.05);
+        }
 
-.hero p {
-    font-size: 18px;
-    line-height: 1.8;
-    max-width: 600px;
-    color: #e3d5f1;
-    margin-bottom: 30px;
-}
+        section {
+            padding: 70px 10%;
+        }
 
-.btn {
-    display: inline-block;
-    background: #ff38c7;
-    color: #180628;
-    padding: 15px 25px;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 5px;
-    transition: .3s;
-    border: none;
-    cursor: pointer;
-}
+        section h2 {
+            text-align: center;
+            color: #e50914;
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
 
-.btn:hover {
-    transform: scale(1.06);
-    box-shadow: 0 0 25px #ff38c7;
-}
+        .sobre p {
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+            color: #cccccc;
+            font-size: 18px;
+        }
 
-section {
-    padding: 75px 8%;
-}
+        .personagens {
+            background-color: #141414;
+        }
 
-.section-title {
-    font-family: 'Orbitron', sans-serif;
-    color: #ff38c7;
-    font-size: clamp(25px, 4vw, 38px);
-    margin-bottom: 15px;
-}
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+        }
 
-.subtitle {
-    color: #cbb9dd;
-    margin-bottom: 35px;
-    line-height: 1.7;
-}
+        .card {
+            background-color: #202020;
+            border: 1px solid #3b1111;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            transition: 0.3s;
+        }
 
-.parts {
-    background: #180824;
-}
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: #e50914;
+            box-shadow: 0 0 15px #400000;
+        }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 22px;
-}
+        .card h3 {
+            color: #e50914;
+            margin-bottom: 12px;
+        }
 
-.card {
-    background: linear-gradient(145deg, #321047, #1b0b2b);
-    border: 1px solid #713c89;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: .3s;
-}
+        .card p {
+            color: #cccccc;
+        }
 
-.card:hover {
-    transform: translateY(-8px);
-    border-color: #ff38c7;
-    box-shadow: 0 10px 30px #ff38c722;
-}
+        .curiosidade {
+            text-align: center;
+        }
 
-.card-art {
-    height: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 65px;
-    background: radial-gradient(circle, #7934a5, #260c3b);
-}
+        #mensagem {
+            color: #ff7777;
+            margin-top: 25px;
+            font-size: 18px;
+        }
 
-.card-content {
-    padding: 22px;
-}
+        footer {
+            background-color: #151515;
+            text-align: center;
+            padding: 20px;
+            color: #888888;
+            border-top: 2px solid #a00000;
+        }
 
-.card h3 {
-    color: #ff75d7;
-    margin-bottom: 12px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 17px;
-}
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                gap: 12px;
+            }
 
-.card p {
-    color: #d6c8e2;
-    line-height: 1.6;
-    font-size: 14px;
-}
+            nav a {
+                margin: 0 7px;
+                font-size: 14px;
+            }
 
-.stands {
-    background: linear-gradient(135deg, #230936, #10051d);
-}
-
-.stand-box {
-    padding: 30px;
-    border-left: 4px solid #ff38c7;
-    background: #ffffff08;
-    margin-top: 25px;
-    border-radius: 0 12px 12px 0;
-}
-
-.stand-box h3 {
-    color: #ff75d7;
-    margin-bottom: 12px;
-}
-
-.stand-box p {
-    color: #e0d2ed;
-    line-height: 1.8;
-}
-
-.quote {
-    text-align: center;
-    background: #3a0b4c;
-    padding: 65px 8%;
-}
-
-.quote h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(22px, 4vw, 38px);
-    color: #ff75d7;
-    margin-bottom: 18px;
-}
-
-.quote p {
-    color: #eadcf5;
-    line-height: 1.8;
-}
-
-footer {
-    text-align: center;
-    padding: 25px;
-    background: #09030f;
-    color: #b8a4c8;
-    font-size: 13px;
-}
-
-#surprise {
-    margin-top: 20px;
-    color: #ff75d7;
-    font-weight: bold;
-    min-height: 25px;
-}
-
-@media (max-width: 600px) {
-    header {
-        flex-direction: column;
-    }
-
-    nav a {
-        display: inline-block;
-        margin: 6px;
-    }
-
-    .hero {
-        min-height: 70vh;
-    }
-}
-</style>
+            section {
+                padding: 50px 7%;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-    <div class="logo">JOJO'S BIZARRE</div>
+    <header>
+        <h2>TOKYO GHOUL</h2>
 
-    <nav>
-        <a href="#inicio">Início</a>
-        <a href="#partes">Partes</a>
-        <a href="#stands">Stands</a>
-        <a href="#sobre">Sobre</a>
-    </nav>
-</header>
+        <nav>
+            <a href="#inicio">Início</a>
+            <a href="#sobre">História</a>
+            <a href="#personagens">Personagens</a>
+        </nav>
+    </header>
 
-<main>
-    <section class="hero" id="inicio">
-        <h1>YARE YARE...<br>
-        <span>WELCOME TO JOJO!</span></h1>
+    <main>
+        <section class="hero" id="inicio">
+            <h1>TOKYO GHOUL</h1>
 
-        <p>
-            Entre em um universo bizarro de batalhas épicas,
-            poderes extraordinários e personagens inesquecíveis.
-            O legado dos Joestar está apenas começando!
-        </p>
+            <p>
+                "Não somos monstros por escolha.
+                Às vezes, o mundo nos transforma naquilo que tememos."
+            </p>
 
-        <a class="btn" href="#partes">EXPLORAR O UNIVERSO</a>
-    </section>
+            <a href="#sobre" class="botao">Explorar o universo</a>
+        </section>
 
-    <section class="parts" id="partes">
-        <h2 class="section-title">AS PARTES</h2>
-        <p class="subtitle">
-            Cada geração traz um novo JoJo, uma nova aventura
-            e inimigos cada vez mais perigosos.
-        </p>
+        <section class="sobre" id="sobre">
+            <h2>A História</h2>
 
-        <div class="grid">
-            <article class="card">
-                <div class="card-art">🗿</div>
-                <div class="card-content">
-                    <h3>Parte 1 — Phantom Blood</h3>
-                    <p>Jonathan Joestar enfrenta Dio Brando em uma rivalidade que muda o destino de sua família.</p>
+            <p>
+                Tokyo Ghoul acompanha Ken Kaneki, um estudante universitário
+                cuja vida muda completamente após um encontro com uma ghoul,
+                criatura que precisa consumir carne humana para sobreviver.
+                Depois de um acidente, Kaneki passa a viver entre dois mundos:
+                o dos humanos e o dos ghouls. Agora, ele precisa descobrir
+                sua identidade em uma cidade cheia de conflitos, medo e mistério.
+            </p>
+        </section>
+
+        <section class="personagens" id="personagens">
+            <h2>Personagens Principais</h2>
+
+            <div class="cards">
+                <div class="card">
+                    <h3>Ken Kaneki</h3>
+                    <p>
+                        O protagonista que precisa aprender a lidar
+                        com sua nova natureza e identidade.
+                    </p>
                 </div>
-            </article>
 
-            <article class="card">
-                <div class="card-art">🔥</div>
-                <div class="card-content">
-                    <h3>Parte 2 — Battle Tendency</h3>
-                    <p>Joseph Joestar usa inteligência, truques e Hamon contra antigos seres poderosos.</p>
+                <div class="card">
+                    <h3>Touka Kirishima</h3>
+                    <p>
+                        Uma ghoul independente e determinada que
+                        trabalha no café Anteiku.
+                    </p>
                 </div>
-            </article>
 
-            <article class="card">
-                <div class="card-art">⭐</div>
-                <div class="card-content">
-                    <h3>Parte 3 — Stardust Crusaders</h3>
-                    <p>Jotaro Kujo e seus aliados viajam pelo mundo para enfrentar DIO.</p>
+                <div class="card">
+                    <h3>Rize Kamishiro</h3>
+                    <p>
+                        Uma ghoul misteriosa que desencadeia
+                        a transformação na vida de Kaneki.
+                    </p>
                 </div>
-            </article>
 
-            <article class="card">
-                <div class="card-art">💎</div>
-                <div class="card-content">
-                    <h3>Parte 4 — Diamond Is Unbreakable</h3>
-                    <p>Josuke Higashikata protege Morioh enquanto mistérios sinistros surgem na cidade.</p>
+                <div class="card">
+                    <h3>Hideyoshi Nagachika</h3>
+                    <p>
+                        O melhor amigo de Kaneki, conhecido por sua
+                        personalidade alegre e lealdade.
+                    </p>
                 </div>
-            </article>
+            </div>
+        </section>
 
-            <article class="card">
-                <div class="card-art">🌀</div>
-                <div class="card-content">
-                    <h3>Parte 5 — Golden Wind</h3>
-                    <p>Giorno Giovanna sonha em se tornar uma lenda dentro da máfia italiana.</p>
-                </div>
-            </article>
+        <section class="curiosidade">
+            <h2>Você conhece os ghouls?</h2>
 
-            <article class="card">
-                <div class="card-art">🌊</div>
-                <div class="card-content">
-                    <h3>Parte 6 — Stone Ocean</h3>
-                    <p>Jolyne Cujoh luta para sobreviver e desvendar uma conspiração na prisão.</p>
-                </div>
-            </article>
-        </div>
-    </section>
+            <p>
+                Descubra uma curiosidade sobre o universo de Tokyo Ghoul.
+            </p>
 
-    <section class="stands" id="stands">
-        <h2 class="section-title">STAND POWER!</h2>
-        <p class="subtitle">
-            Um Stand é a manifestação da energia vital de seu usuário.
-            Cada habilidade pode decidir o resultado de uma batalha.
-        </p>
+            <button class="botao" onclick="mostrarCuriosidade()">
+                Revelar curiosidade
+            </button>
 
-        <div class="grid">
-            <article class="card">
-                <div class="card-art">👊</div>
-                <div class="card-content">
-                    <h3>Star Platinum</h3>
-                    <p>O Stand de Jotaro Kujo, conhecido por sua força, velocidade e precisão extraordinárias.</p>
-                </div>
-            </article>
+            <p id="mensagem"></p>
+        </section>
+    </main>
 
-            <article class="card">
-                <div class="card-art">⏳</div>
-                <div class="card-content">
-                    <h3>The World</h3>
-                    <p>O temível Stand de DIO, capaz de parar o tempo.</p>
-                </div>
-            </article>
+    <footer>
+        <p>Site de fã de Tokyo Ghoul | Criado para fins educativos</p>
+    </footer>
 
-            <article class="card">
-                <div class="card-art">💚</div>
-                <div class="card-content">
-                    <h3>Crazy Diamond</h3>
-                    <p>O Stand de Josuke, que pode restaurar objetos e curar outras pessoas.</p>
-                </div>
-            </article>
-
-            <article class="card">
-                <div class="card-art">✨</div>
-                <div class="card-content">
-                    <h3>Gold Experience</h3>
-                    <p>O Stand de Giorno, capaz de dar vida a objetos inanimados.</p>
-                </div>
-            </article>
-        </div>
-    </section>
-
-    <section class="quote" id="sobre">
-        <h2>ゴゴゴゴ — ORA ORA ORA! — ゴゴゴゴ</h2>
-        <p>
-            JoJo's Bizarre Adventure é uma obra criada por
-            Hirohiko Araki, famosa por seu estilo visual único,
-            batalhas estratégicas, poses icônicas e gerações de heróis.
-        </p>
-
-        <br>
-
-        <button class="btn" onclick="surprise()">ATIVAR STAND</button>
-        <div id="surprise"></div>
-    </section>
-</main>
-
-<footer>
-    <p>Site de fã feito para fãs de JoJo's Bizarre Adventure.</p>
-    <p>JoJo e seus personagens pertencem a Hirohiko Araki e seus respectivos detentores.</p>
-</footer>
-
-<script>
-function surprise() {
-    const messages = [
-        "ORA ORA ORA ORA ORA!!! 👊",
-        "MUDA MUDA MUDA MUDA!!! 🗿",
-        "ZA WARUDO! TOKI YO TOMARE! ⏳",
-        "YARE YARE DAZE... ⭐",
-        "GOLDEN EXPERIENCE! ✨"
-    ];
-
-    const random = Math.floor(Math.random() * messages.length);
-    document.getElementById("surprise").textContent = messages[random];
-}
-</script>
+    <script>
+        function mostrarCuriosidade() {
+            document.getElementById("mensagem").textContent =
+                "Os ghouls possuem órgãos especiais chamados kakuhou, " +
+                "responsáveis pela formação de seus kagunes!";
+        }
+    </script>
 
 </body>
 </html>
