@@ -4,336 +4,273 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tokyo Ghoul: Despertar</title>
+<title>ULTRAKILL: BLOOD TERMINATION</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;background:#09090d;color:#eee;
- font-family:Arial,sans-serif;text-align:center;
-}
-header{padding:18px;background:#16090d;border-bottom:2px solid #b00020}
-h1{margin:0;color:#ff233f;letter-spacing:3px}
-header p{color:#aaa;margin-bottom:0}
-#game{
- position:relative;width:min(900px,100%);margin:auto;
- background:radial-gradient(ellipse at center,#351018,#100b12 65%,#050508);
- overflow:hidden;border:1px solid #57202b;
-}
-canvas{display:block;width:100%;height:auto;touch-action:none}
-#hud{
- display:flex;justify-content:space-around;flex-wrap:wrap;
- gap:10px;padding:12px;background:#151217;
-}
-.stat{min-width:100px;font-size:14px}
-.bar{height:10px;background:#333;margin-top:6px;border-radius:8px;overflow:hidden}
-.fill{height:100%;width:100%;transition:width .15s}
-#hp{background:#ef2545}#energy{background:#a12cff}
-#overlay{
- position:absolute;inset:0;background:#08060beF;
- display:flex;flex-direction:column;justify-content:center;align-items:center;
- padding:24px;gap:14px;
-}
-#overlay h2{font-size:clamp(26px,6vw,48px);color:#ff233f;margin:0}
-#overlay p{max-width:480px;line-height:1.6;color:#ddd}
-button{
- background:#b00020;color:white;border:1px solid #ff4358;
- padding:12px 18px;border-radius:5px;font-weight:bold;cursor:pointer;
-}
-button:hover{background:#ed1739}
-.controls{
- max-width:900px;margin:14px auto;display:flex;justify-content:center;
- gap:10px;flex-wrap:wrap;padding:0 10px;
-}
-.controls button{min-width:68px;touch-action:none;user-select:none}
-.hint{color:#999;font-size:13px;padding:0 12px 20px}
+body{margin:0;background:#08090d;color:#eee;font-family:monospace;text-align:center}
+header{padding:12px;background:#11131b;border-bottom:2px solid #e32e45}
+h1{margin:0;color:#ff304b;letter-spacing:5px;text-shadow:3px 2px #541020}
+header p{margin:5px;color:#9ba4b8}
+#hud{display:flex;justify-content:space-around;gap:8px;flex-wrap:wrap;padding:12px;background:#141620}
+.stat{min-width:90px;font-size:13px}
+.bar{height:10px;background:#30313b;margin-top:5px}
+.fill{height:100%;transition:width .1s}
+#hp{background:#ed334e}#ammo{background:#29baff}
+#arena{width:min(900px,100%);margin:auto;position:relative;background:#140e19}
+canvas{display:block;width:100%;height:auto;image-rendering:pixelated}
+#overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#080911ed;padding:22px}
+#overlay h2{font-size:clamp(25px,6vw,48px);color:#ff304b;margin:5px}
+#overlay p{max-width:500px;line-height:1.6}
+button{font-family:monospace;font-weight:bold;padding:12px 16px;background:#202638;color:white;border:1px solid #4b9cff;cursor:pointer}
+button:hover{background:#e32e45}
+.controls{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:12px}
+.hint{color:#9296a5;font-size:12px;padding:0 12px 20px}
 </style>
 </head>
 <body>
 <header>
- <h1>TOKYO GHOUL</h1>
- <p>DESPERTAR DO GHOUL</p>
+<h1>ULTRAKILL</h1>
+<p>MACHINE // BLOOD IS FUEL // HELL IS FULL</p>
 </header>
 
 <div id="hud">
- <div class="stat">❤️ Vida
-  <div class="bar"><div id="hp" class="fill"></div></div>
-  <span id="hpText">100 / 100</span>
+ <div class="stat">❤️ VITALIDADE
+  <div class="bar"><div id="hp" class="fill" style="width:100%"></div></div>
+  <span id="hpText">100</span>
  </div>
- <div class="stat">🩸 Kagune
-  <div class="bar"><div id="energy" class="fill"></div></div>
-  <span id="energyText">100%</span>
+ <div class="stat">🔫 MUNIÇÃO
+  <div class="bar"><div id="ammo" class="fill" style="width:100%"></div></div>
+  <span id="ammoText">12 / 12</span>
  </div>
- <div class="stat">☠️ Pontuação<br><b id="score">0</b></div>
- <div class="stat">🌑 Onda<br><b id="wave">1</b></div>
+ <div class="stat">💀 KILLS<br><b id="kills">0</b></div>
+ <div class="stat">⚡ STYLE<br><b id="style">0</b></div>
+ <div class="stat">🌊 ONDA<br><b id="wave">1</b></div>
 </div>
 
-<div id="game">
- <canvas id="canvas" width="800" height="480"></canvas>
- <div id="overlay">
-  <h2 id="overlayTitle">DESPERTE SEU GHOUL</h2>
-  <p id="overlayText">
-   Tóquio está dominada pela CCG. Sobreviva aos investigadores,
-   use seu Kagune e prove sua força.
-  </p>
-  <button id="start">INICIAR JOGO</button>
- </div>
+<div id="arena">
+<canvas id="game" width="800" height="450"></canvas>
+<div id="overlay">
+ <h2 id="title">MANKIND IS DEAD</h2>
+ <p id="desc">BLOOD IS FUEL. HELL IS FULL.<br>
+ Você é V1. Entre na arena, destrua as máquinas e sobreviva.</p>
+ <button id="start">ENTER HELL</button>
+</div>
 </div>
 
 <div class="controls">
- <button data-key="ArrowLeft">◀ ESQ.</button>
- <button data-key="ArrowUp">▲ PULAR</button>
- <button data-key="ArrowRight">DIR. ▶</button>
- <button id="attack">⚔ ATACAR</button>
- <button id="special">🩸 KAGUNE</button>
+<button id="left">◀ ESQUERDA</button>
+<button id="right">DIREITA ▶</button>
+<button id="shoot">🔫 ATIRAR</button>
+<button id="dash">⚡ DASH</button>
+<button id="reload">↻ RECARREGAR</button>
 </div>
 <p class="hint">
- Teclado: A/D ou ←/→ para mover · W ou ↑ para pular ·
- Espaço para atacar · Shift para Kagune.
+ Teclado: A/D ou ←/→ movimentar · Espaço atirar · Shift dash · R recarregar.
+ Celular: use os botões.
 </p>
 
 <script>
-const canvas=document.getElementById("canvas");
-const ctx=canvas.getContext("2d");
+const c=document.getElementById("game"),ctx=c.getContext("2d");
 const $=id=>document.getElementById(id);
-
-let running=false,keys={},player,enemies,particles;
-let score=0,wave=1,spawnTimer=0,last=0;
-let attackTime=0,specialTime=0,shake=0;
-const ground=410;
+let active=false,keys={},player,foes,shots,particles;
+let kills=0,style=0,wave=1,spawn=0,last=0,shake=0;
+const floor=365;
 
 function reset(){
- score=0;wave=1;spawnTimer=0;attackTime=0;specialTime=0;
- player={x:130,y:ground-58,w:34,h:58,hp:100,energy:100,
- vx:0,vy:0,face:1,inv:0};
- enemies=[];particles=[];
- for(let i=0;i<3;i++)spawnEnemy(480+i*120);
- updateHUD();
+ kills=0;style=0;wave=1;spawn=0;shake=0;
+ player={x:380,y:floor-48,w:30,h:48,hp:100,ammo:12,
+ face:1,dash:0,cool:0,inv:0,reload:0};
+ foes=[];shots=[];particles=[];
+ for(let i=0;i<3;i++)enemy(100+i*280);
+ hud();
 }
-
-function spawnEnemy(x){
- enemies.push({x:x??790,y:ground-48,w:30,h:48,hp:2+Math.floor(wave/3),
- speed:35+wave*5,hit:0});
+function enemy(x){
+ foes.push({x:x??Math.random()*740+20,y:floor-38,w:28,h:38,
+ hp:2+Math.floor(wave/3),speed:35+wave*5,flash:0});
 }
-
-function updateHUD(){
+function hud(){
  $("hp").style.width=Math.max(0,player.hp)+"%";
- $("hpText").textContent=Math.ceil(player.hp)+" / 100";
- $("energy").style.width=player.energy+"%";
- $("energyText").textContent=Math.floor(player.energy)+"%";
- $("score").textContent=score;
+ $("hpText").textContent=Math.ceil(player.hp);
+ $("ammo").style.width=(player.ammo/12*100)+"%";
+ $("ammoText").textContent=player.ammo+" / 12";
+ $("kills").textContent=kills;
+ $("style").textContent=style;
  $("wave").textContent=wave;
 }
-
-function burst(x,y,color,count=10){
- for(let i=0;i<count;i++)particles.push({
- x,y,vx:(Math.random()-.5)*260,vy:(Math.random()-.7)*230,
+function burst(x,y,color,n=8){
+ for(let i=0;i<n;i++)particles.push({
+ x,y,vx:(Math.random()-.5)*260,vy:(Math.random()-.7)*220,
  life:.3+Math.random()*.5,color
  });
 }
-
-function hitEnemy(e,damage){
- e.hp-=damage;e.hit=.15;
- burst(e.x+e.w/2,e.y+20,"#ff294c",9);
- if(e.hp<=0){
-  score+=100;
-  player.energy=Math.min(100,player.energy+12);
-  burst(e.x,e.y,"#b12cff",15);
- }
-}
-
-function attack(){
- if(!running||attackTime>0)return;
- attackTime=.24;
- for(const e of enemies){
-  if(Math.abs((e.x+e.w/2)-(player.x+player.w/2))<85 &&
-     Math.abs(e.y-player.y)<65 &&
-     Math.sign(e.x-player.x)===player.face){
-   hitEnemy(e,1);
+function shoot(){
+ if(!active||player.cool>0||player.reload>0)return;
+ if(player.ammo<=0){reload();return}
+ player.ammo--;player.cool=.22;
+ shots.push({x:player.x+player.w/2,y:player.y+20,
+ vx:player.face*650,life:.65});
+ burst(player.x+player.w/2+player.face*12,player.y+20,"#65caff",3);
+ for(const e of foes){
+  if(Math.abs(e.y-player.y)<45&&
+     Math.sign(e.x-player.x)===player.face&&
+     Math.abs(e.x-player.x)<400){
+    // O tiro acerta o primeiro inimigo no caminho.
+    const closer=foes.some(o=>o!==e&&
+      Math.sign(o.x-player.x)===player.face&&
+      Math.abs(o.x-player.x)<Math.abs(e.x-player.x));
+    if(!closer){e.hp--;e.flash=.12;style+=10;shake=3;
+      burst(e.x,e.y,"#ff344c",10);
+      if(e.hp<=0)killEnemy(e);
+    }
+    break;
   }
  }
+ hud();
 }
-
-function special(){
- if(!running||specialTime>0||player.energy<35)return;
- player.energy-=35;specialTime=.55;shake=8;
- burst(player.x+player.w/2,player.y+25,"#e51cfc",30);
- for(const e of enemies){
-  if(Math.abs(e.x-player.x)<210){
-   hitEnemy(e,3);
-  }
- }
- updateHUD();
+function killEnemy(e){
+ if(e.dead)return;
+ e.dead=true;kills++;style+=100;
+ player.hp=Math.min(100,player.hp+12);
+ burst(e.x,e.y,"#ff193d",18);
 }
-
-function jump(){
- if(running&&player.y>=ground-player.h-1)player.vy=-430;
+function reload(){
+ if(!active||player.ammo===12||player.reload>0)return;
+ player.reload=1;
 }
-
+function dash(){
+ if(!active||player.dash>0)return;
+ player.dash=.18;player.inv=.3;
+ player.x+=player.face*90;
+ player.x=Math.max(0,Math.min(770,player.x));
+ burst(player.x+15,player.y+25,"#54c9ff",12);
+}
 function update(dt){
- if(!running)return;
- dt=Math.min(dt,.033);
- player.vx=0;
- if(keys.ArrowLeft||keys.KeyA){player.vx=-230;player.face=-1}
- if(keys.ArrowRight||keys.KeyD){player.vx=230;player.face=1}
- player.x+=player.vx*dt;
- player.x=Math.max(5,Math.min(800-player.w-5,player.x));
- player.vy+=1000*dt;player.y+=player.vy*dt;
- if(player.y>ground-player.h){player.y=ground-player.h;player.vy=0}
+ if(!active)return;
+ dt=Math.min(dt,.03);
+ player.cool=Math.max(0,player.cool-dt);
+ player.dash=Math.max(0,player.dash-dt);
  player.inv=Math.max(0,player.inv-dt);
- attackTime=Math.max(0,attackTime-dt);
- specialTime=Math.max(0,specialTime-dt);
- spawnTimer-=dt;
- if(spawnTimer<=0){
-  if(enemies.length<Math.min(4+wave,12))spawnEnemy();
-  spawnTimer=Math.max(.5,2-wave*.08);
+ if(player.reload>0){
+  player.reload-=dt;
+  if(player.reload<=0)player.ammo=12;
  }
- for(const e of enemies){
-  e.hit=Math.max(0,e.hit-dt);
-  const dx=player.x-e.x;
+ if(keys.ArrowLeft||keys.KeyA){player.x-=230*dt;player.face=-1}
+ if(keys.ArrowRight||keys.KeyD){player.x+=230*dt;player.face=1}
+ player.x=Math.max(0,Math.min(770,player.x));
+ spawn-=dt;
+ if(spawn<=0&&foes.length<Math.min(4+wave,12)){
+  enemy();spawn=Math.max(.4,1.6-wave*.06);
+ }
+ for(const e of foes){
+  e.flash=Math.max(0,e.flash-dt);
+  let dx=player.x-e.x;
   if(Math.abs(dx)>35)e.x+=Math.sign(dx)*e.speed*dt;
-  if(Math.abs(dx)<42&&Math.abs(player.y-e.y)<45&&player.inv<=0){
-   player.hp-=12;player.inv=.7;
-   burst(player.x,player.y,"#ff233f",7);
+  if(Math.abs(dx)<40&&player.inv<=0){
+   player.hp-=20*dt;
+   // Sangue recuperado ao enfrentar inimigos de perto.
+   if(player.dash>0)player.hp=Math.min(100,player.hp+35*dt);
   }
  }
- enemies=enemies.filter(e=>e.hp>0);
+ foes=foes.filter(e=>!e.dead);
+ shots=shots.filter(s=>s.life>0&&s.x>=0&&s.x<=800);
+ for(const s of shots){
+  s.x+=s.vx*dt;s.life-=dt;
+ }
  particles=particles.filter(p=>p.life>0);
  for(const p of particles){
-  p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=400*dt;p.life-=dt;
+  p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=300*dt;p.life-=dt;
  }
- player.energy=Math.min(100,player.energy+4*dt);
- if(score>=wave*500)wave++;
- updateHUD();
- if(player.hp<=0)endGame();
+ if(kills>=wave*5)wave++;
+ hud();
+ if(player.hp<=0)end();
 }
-
+function rect(x,y,w,h,color){
+ ctx.fillStyle=color;ctx.fillRect(x,y,w,h);
+}
 function draw(){
- ctx.clearRect(0,0,800,480);
- // Lua e prédios
- let sky=ctx.createLinearGradient(0,0,0,480);
- sky.addColorStop(0,"#100b1b");sky.addColorStop(1,"#300d19");
- ctx.fillStyle=sky;ctx.fillRect(0,0,800,480);
- for(let i=0;i<14;i++){
-  let x=i*65;
-  ctx.fillStyle=i%2?"#17121f":"#21121c";
-  ctx.fillRect(x,100+(i%3)*35,48,310);
-  for(let j=0;j<5;j++){
-   ctx.fillStyle=(i+j)%3?"#742333":"#f35b71";
-   ctx.globalAlpha=.45;
-   ctx.fillRect(x+8+j%2*16,120+j*45,7,12);
-  }
+ ctx.clearRect(0,0,800,450);
+ let g=ctx.createLinearGradient(0,0,0,450);
+ g.addColorStop(0,"#111321");g.addColorStop(1,"#431323");
+ rect(0,0,800,450,g);
+ // Estruturas de uma cidade infernal.
+ for(let i=0;i<12;i++){
+  let x=i*75;
+  rect(x,90+(i%3)*28,55,280,"#191925");
+  rect(x+8,120+(i%3)*28,5,90,"#75223a");
+  rect(x+22,145+(i%2)*24,5,55,"#3a9dc8");
+ }
+ rect(0,floor,800,85,"#100e16");
+ rect(0,floor,800,4,"#e52b4d");
+ for(let i=0;i<20;i++)rect(i*45,floor+30,24,3,"#36303b");
+ // Inimigos robóticos.
+ for(const e of foes){
+  rect(e.x,e.y,e.w,e.h,e.flash>0?"white":"#8792a4");
+  rect(e.x+3,e.y+7,e.w-6,12,"#252431");
+  rect(e.x+6,e.y+11,5,4,"#ff234b");
+  rect(e.x+18,e.y+11,5,4,"#ff234b");
+  rect(e.x+4,e.y+25,8,13,"#333747");
+  rect(e.x+17,e.y+25,8,13,"#333747");
+  rect(e.x-2,e.y-7,e.w+4,4,"#5b1728");
+  rect(e.x-2,e.y-7,(e.w+4)*Math.max(0,e.hp)/(2+Math.floor(wave/3)),4,"#ff304b");
+ }
+ // V1
+ const p=player;
+ rect(p.x+5,p.y+10,20,29,"#388bb8");
+ rect(p.x+3,p.y+35,10,13,"#bac6d3");
+ rect(p.x+18,p.y+35,10,13,"#bac6d3");
+ rect(p.x+3,p.y,24,17,"#a5c4d9");
+ rect(p.x+6,p.y+6,18,5,"#ff244a");
+ rect(p.x+(p.face===1?23:-7),p.y+18,14,7,"#313e55");
+ if(p.inv>0){ctx.globalAlpha=.5;rect(p.x-4,p.y-4,38,56,"#4fd5ff");ctx.globalAlpha=1}
+ // Projéteis
+ for(const s of shots)rect(s.x,s.y,15,4,"#71d7ff");
+ for(const q of particles){
+  ctx.globalAlpha=Math.max(0,q.life*2);
+  rect(q.x,q.y,4,4,q.color);
  }
  ctx.globalAlpha=1;
- // Lua
- ctx.fillStyle="#d6a8b8";ctx.globalAlpha=.65;
- ctx.beginPath();ctx.arc(665,75,32,0,Math.PI*2);ctx.fill();
- ctx.globalAlpha=1;
- // chão
- ctx.fillStyle="#100d14";ctx.fillRect(0,ground,800,70);
- ctx.fillStyle="#722034";ctx.fillRect(0,ground,800,3);
- for(let i=0;i<16;i++){
-  ctx.fillStyle="#29202a";
-  ctx.fillRect(i*60,ground+25,30,2);
- }
- // Inimigos
- for(const e of enemies){
-  ctx.fillStyle=e.hit>0?"#fff":"#dad6df";
-  ctx.fillRect(e.x,e.y,e.w,e.h);
-  ctx.fillStyle="#15121b";ctx.fillRect(e.x+4,e.y+8,e.w-8,13);
-  ctx.fillStyle="#ff203f";
-  ctx.fillRect(e.x+7,e.y+13,5,3);ctx.fillRect(e.x+19,e.y+13,5,3);
-  ctx.fillStyle="#8c1831";ctx.fillRect(e.x-2,e.y-8,e.w+4,4);
-  ctx.fillStyle="#ff344f";
-  ctx.fillRect(e.x-2,e.y-8,(e.w+4)*Math.max(0,e.hp)/(2+Math.floor(wave/3)),4);
- }
- // Kaneki
- if(player){
-  let p=player;
-  ctx.save();
-  if(p.inv>0&&Math.floor(p.inv*16)%2===0)ctx.globalAlpha=.35;
-  // Kagune visual
-  if(specialTime>0||attackTime>0){
-   ctx.strokeStyle=specialTime>0?"#dc24ff":"#d51e48";
-   ctx.lineWidth=specialTime>0?13:7;
-   ctx.lineCap="round";
-   for(let i=0;i<3;i++){
-    ctx.beginPath();
-    ctx.moveTo(p.x+17,p.y+34);
-    ctx.quadraticCurveTo(p.x+17+p.face*65,p.y-15+i*30,
-     p.x+17+p.face*(100+i*28),p.y+25+i*28);
-    ctx.stroke();
-   }
-  }
-  // corpo e cabelo branco
-  ctx.fillStyle="#e6e1eb";ctx.fillRect(p.x+7,p.y+18,21,27);
-  ctx.fillStyle="#111018";ctx.fillRect(p.x+5,p.y+38,11,20);
-  ctx.fillRect(p.x+19,p.y+38,11,20);
-  ctx.fillStyle="#f4f0f5";ctx.fillRect(p.x+7,p.y+2,23,20);
-  ctx.fillStyle="#d4d0df";
-  ctx.beginPath();ctx.moveTo(p.x+6,p.y+7);
-  ctx.lineTo(p.x+1,p.y+25);ctx.lineTo(p.x+12,p.y+17);
-  ctx.lineTo(p.x+25,p.y+21);ctx.lineTo(p.x+31,p.y+4);
-  ctx.lineTo(p.x+20,p.y+11);ctx.fill();
-  ctx.fillStyle="#e92146";
-  ctx.fillRect(p.x+(p.face===1?23:7),p.y+13,5,3);
-  ctx.restore();
- }
- // Partículas
- for(const p of particles){
-  ctx.globalAlpha=Math.max(0,p.life*2);
-  ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,4,4);
- }
- ctx.globalAlpha=1;
- if(shake>0)shake--;
  requestAnimationFrame(draw);
 }
-
-function endGame(){
- running=false;
+function end(){
+ active=false;
  $("overlay").style.display="flex";
- $("overlayTitle").textContent="VOCÊ FOI DERROTADO";
- $("overlayText").textContent="Pontuação: "+score+
-  " · Ondas alcançadas: "+wave+". A cidade ainda precisa de você.";
- $("start").textContent="TENTAR NOVAMENTE";
+ $("title").textContent="YOU DIED";
+ $("desc").textContent="Kills: "+kills+" | Style: "+style+
+ " | Wave: "+wave+" — Hell awaits your return.";
+ $("start").textContent="RESTART";
 }
-
-function startGame(){
- reset();running=true;last=performance.now();
+function start(){
+ reset();active=true;last=performance.now();
  $("overlay").style.display="none";
 }
-
-function loop(t){
- let dt=(t-last)/1000;last=t;
- update(dt);
- requestAnimationFrame(loop);
-}
-
 document.addEventListener("keydown",e=>{
- if(["ArrowLeft","ArrowRight","ArrowUp","Space","ShiftLeft"].includes(e.code))e.preventDefault();
  keys[e.code]=true;
+ if(["Space","ArrowLeft","ArrowRight"].includes(e.code))e.preventDefault();
  if(e.repeat)return;
- if(e.code==="Space")attack();
- if(e.code==="ShiftLeft"||e.code==="ShiftRight")special();
- if(e.code==="ArrowUp"||e.code==="KeyW")jump();
+ if(e.code==="Space")shoot();
+ if(e.code==="ShiftLeft"||e.code==="ShiftRight")dash();
+ if(e.code==="KeyR")reload();
 });
 document.addEventListener("keyup",e=>keys[e.code]=false);
-
-document.querySelectorAll("[data-key]").forEach(btn=>{
- const key=btn.dataset.key;
- btn.addEventListener("pointerdown",e=>{
-  e.preventDefault();keys[key]=true;
-  if(key==="ArrowUp")jump();
+function hold(id,key){
+ const b=$(id);
+ b.addEventListener("pointerdown",e=>{
+  e.preventDefault();
+  if(key==="shoot")shoot();
+  else if(key==="dash")dash();
+  else keys[key]=true;
  });
  for(const ev of ["pointerup","pointerleave","pointercancel"])
-  btn.addEventListener(ev,()=>keys[key]=false);
-});
-$("attack").addEventListener("pointerdown",e=>{e.preventDefault();attack()});
-$("special").addEventListener("pointerdown",e=>{e.preventDefault();special()});
-$("start").addEventListener("click",startGame);
-
-reset();
-draw();
-requestAnimationFrame(t=>{last=t;loop(t)});
+ b.addEventListener(ev,()=>{if(key!=="shoot"&&key!=="dash")keys[key]=false});
+}
+hold("left","ArrowLeft");hold("right","ArrowRight");
+hold("shoot","shoot");hold("dash","dash");
+$("reload").addEventListener("click",reload);
+$("start").addEventListener("click",start);
+function loop(t){
+ const dt=(t-last)/1000;last=t;update(dt);requestAnimationFrame(loop);
+}
+reset();draw();requestAnimationFrame(t=>{last=t;loop(t)});
 </script>
 </body>
 </html>
